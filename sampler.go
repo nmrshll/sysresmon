@@ -6,6 +6,8 @@ import (
 )
 
 type Sampler struct {
+	SampleCPU     bool
+	SampleMem     bool
 	Rate          time.Duration
 	SampleSetChan chan SampleSet
 	AggregateChan chan Aggregate
@@ -21,8 +23,18 @@ type Aggregate struct {
 	MemUsage float64
 }
 
-func NewSampler(rate time.Duration) *Sampler {
-	return &Sampler{Rate: rate}
+func NewSampler(options ...func(*Sampler)) *Sampler {
+	sampler := &Sampler{
+		Rate:      1 * time.Second,
+		SampleCPU: true,
+		SampleMem: true,
+	}
+
+	for _, options := range options {
+		options(sampler)
+	}
+
+	return sampler
 }
 
 func (s *Sampler) StartSampling() *Sampler {
@@ -62,4 +74,24 @@ func (s *Sampler) Aggregate() *Sampler {
 		}
 	}()
 	return s
+}
+
+func (s *Sampler) WithRate(rate time.Duration) {
+	s.Rate = rate
+}
+
+func (s *Sampler) With(options ...func(*Sampler)) {
+	s.SampleCPU = false
+	s.SampleMem = false
+	for _, options := range options {
+		options(s)
+	}
+}
+
+func (s *Sampler) CPU() {
+	s.SampleCPU = true
+}
+
+func (s *Sampler) Mem() {
+	s.SampleMem = true
 }
