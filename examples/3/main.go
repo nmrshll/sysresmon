@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 	"sysstats"
-	"time"
 )
 
 func main() {
-	sampler := sysstats.NewSampler(1 * time.Second).StartSampling().Aggregate()
+	sampler := sysstats.NewSampler().StartSampling().Aggregate()
 	for {
 		select {
 		case aggregate := <-sampler.AggregateChan:

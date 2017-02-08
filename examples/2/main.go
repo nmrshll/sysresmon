@@ -3,11 +3,10 @@ package main
 import (
 	"fmt"
 	"sysstats"
-	"time"
 )
 
 func main() {
-	sampler := sysstats.NewSampler(1 * time.Second).StartSampling()
+	sampler := sysstats.NewSampler().StartSampling()
 	var latestSample, previousSample sysstats.CPUSample
 	for {
 		select {
