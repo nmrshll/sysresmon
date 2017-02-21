@@ -2,16 +2,16 @@ package main
 
 import (
 	"fmt"
-	"sysstats"
+	"sysresmon"
 	"time"
 )
 
 func main() {
-	var latestSample, previousSample sysstats.CPUSample
+	var latestSample, previousSample sysresmon.CPUSample
 	for {
 		previousSample = latestSample
 		time.Sleep(1 * time.Second)
-		latestSample = sysstats.GetCPUSample()
+		latestSample = sysresmon.GetCPUSample()
 
 		idleTicks := float64(latestSample.Idle - previousSample.Idle)
 		totalTicks := float64(latestSample.Total - previousSample.Total)

@@ -1,4 +1,4 @@
-package sysstats
+package sysresmon
 
 import (
 	"log"

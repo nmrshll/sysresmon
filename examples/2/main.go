@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"sysstats"
+	"sysresmon"
 )
 
 func main() {
-	sampler := sysstats.NewSampler().StartSampling()
-	var latestSample, previousSample sysstats.CPUSample
+	sampler := sysresmon.NewSampler().StartSampling()
+	var latestSample, previousSample sysresmon.CPUSample
 	for {
 		select {
 		case sampleSet := <-sampler.SampleSetChan:

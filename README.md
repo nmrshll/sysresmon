@@ -1,4 +1,4 @@
-# sysstats
+# sysresmon
 Go library to access system stats.
 
 Gets samples of CPU and memory usage, and provides helpers to start monitoring CPU and memory usage over time.
@@ -9,7 +9,7 @@ Gets samples of CPU and memory usage, and provides helpers to start monitoring C
 Print average CPU usage each second (examples/3)
 
 ```go
-sampler := sysstats.NewSampler().StartSampling().Aggregate()
+sampler := sysresmon.NewSampler().StartSampling().Aggregate()
 for {
 	select {
 	case aggregate := <-sampler.AggregateChan:
@@ -21,8 +21,8 @@ for {
 Start displaying CPU and memory usage values every second (examples/2)
 
 ```go
-sampler := sysstats.NewSampler().StartSampling()
-var latestSample, previousSample sysstats.CPUSample
+sampler := sysresmon.NewSampler().StartSampling()
+var latestSample, previousSample sysresmon.CPUSample
 for {
 	select {
 	case sampleSet := <-sampler.SampleSetChan:
@@ -41,11 +41,11 @@ for {
 Print average CPU usage over 1 second (examples/1)
 
 ```go
-var latestSample, previousSample sysstats.CPUSample
+var latestSample, previousSample sysresmon.CPUSample
 for {
 	previousSample = latestSample
 	time.Sleep(1 * time.Second)
-	latestSample = sysstats.GetCPUSample()
+	latestSample = sysresmon.GetCPUSample()
 
 	idleTicks := float64(latestSample.Idle - previousSample.Idle)
 	totalTicks := float64(latestSample.Total - previousSample.Total)
@@ -55,7 +55,7 @@ for {
 }
 ```
 
-Further docuentation is available [on godoc](https://godoc.org/github.com/n-marshall/sysstats)
+Further docuentation is available [on godoc](https://godoc.org/github.com/n-marshall/sysresmon)
 
 ## Requirements
 

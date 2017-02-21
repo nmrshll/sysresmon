@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
-	"sysstats"
+	"sysresmon"
 )
 
 func main() {
-	sampler := sysstats.NewSampler().StartSampling().Aggregate()
+	sampler := sysresmon.NewSampler().StartSampling().Aggregate()
 	for {
 		select {
 		case aggregate := <-sampler.AggregateChan:
